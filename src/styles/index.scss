@@ -1,0 +1,31 @@
+@import "~antd/dist/antd.css";
+
+body {
+
+  >canvas {
+    top: 48px !important;
+  }
+}
+
+header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+
+  .logo, .setting {
+    padding: 5px;
+  }
+
+  .logo {
+    width: 125px;
+  }
+
+  ul.ant-menu {
+    border-bottom: none;
+    flex: 1;
+  }
+
+  &.dark .setting .ant-switch-checked {
+    background-color: #8f9194;
+  }
+}

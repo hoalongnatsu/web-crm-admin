@@ -1,0 +1,6 @@
+{
+  "menu:users": "Users",
+  "menu:create-user": "Create User",
+  "menu:user-info": "User Info",
+  "menu:transactions": "Transactions"
+}
