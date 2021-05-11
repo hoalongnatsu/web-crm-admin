@@ -1,7 +1,4 @@
+import table from "@Store/reducers/pattern/table";
+import { users } from "@Pages/Users/config/constants";
 
-export default function users(state = {}, action) {
-  switch (action.type) {  
-    default:
-      return state
-  }
-}
+export default table(users);

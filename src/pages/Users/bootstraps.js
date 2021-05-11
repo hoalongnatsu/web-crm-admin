@@ -1,3 +1,5 @@
+import { users } from "./config/constants";
+
 const config = {
   name: "Users",
   baseUrl: "/users",
@@ -8,7 +10,7 @@ const config = {
       title: "Users Page",
       exact: true,
       reducer: {
-        name: "users",
+        name: users,
         resource: "users"
       },
     },

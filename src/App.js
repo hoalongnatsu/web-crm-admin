@@ -25,6 +25,7 @@ const App = () => {
   useEffect(() => {
     initResource().then((data) => {
       setResource(data);
+      store.runSaga();
     });
   }, []);
 

@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  web-crm-front-end:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: web-crm-front-end
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    networks:
+      - web-crm
+
+networks:
+  web-crm: 
+    external:
+      name: web-crm
