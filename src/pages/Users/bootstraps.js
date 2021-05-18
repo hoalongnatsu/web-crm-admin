@@ -42,7 +42,8 @@ const config = {
         ]
       }
     ]
-  }
+  },
+  requireAuthenticated: true
 }
 
 export default config;

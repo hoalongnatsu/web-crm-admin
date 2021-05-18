@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
-import { Route, Switch, useHistory, useLocation } from "react-router";
+import { Redirect, Route, Switch, useHistory, useLocation } from "react-router";
 
 import ErrorBoundary from "@CoreComponents/ErrorBoundary";
 import { Helmet } from "react-helmet-async";
@@ -54,15 +54,17 @@ const RouteWithTitle = ({ exact, title, path, page, subpage, reducer }) => {
   );
 };
 
-const Routes = ({ routes }) => {
+const Routes = ({ routes, authenticated }) => {
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
     if (location.pathname === "/") {
-      history.push("/users");
+      if (authenticated) {
+        history.push("/users");
+      }
     }
-  }, [history, location]);
+  }, [authenticated, history, location]);
 
   return (
     <Suspense fallback={<LoadableLoading />}>
@@ -70,6 +72,16 @@ const Routes = ({ routes }) => {
         {routes.map((route) => (
           <RouteWithTitle key={route.path} {...route} />
         ))}
+        {authenticated ? (
+          <RouteWithTitle
+            path="*"
+            title="Not Found"
+            page="System"
+            subpage="NotFound"
+          />
+        ) : (
+          <Route path="*" render={(props) => <Redirect {...props} to="/login" />} />
+        )}
       </Switch>
     </Suspense>
   );

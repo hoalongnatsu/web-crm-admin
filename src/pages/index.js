@@ -1,4 +1,5 @@
 const pages = [
+  "Authentication",
   "Transactions",
   "Users"
 ]

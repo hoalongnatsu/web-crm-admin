@@ -1,0 +1,19 @@
+@import "~antd/dist/antd.css";
+
+// Abstract files
+@import "./abstracts/mixins";
+@import "./abstracts/variables";
+
+// Components
+@import "./components/table";
+
+// Core files
+@import "./core/reset";
+@import "./core/typography";
+
+// Layout
+@import "./layout/footer";
+@import "./layout/header";
+
+// Pages
+@import "./pages/login";

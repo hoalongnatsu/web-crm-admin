@@ -1,0 +1,23 @@
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    width: 375px;
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    border-radius: 2.5px;
+  }
+
+  &__header {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  &__validation {
+    margin-bottom: 15px;
+  }
+}

@@ -3,5 +3,5 @@ import { themes } from "@Contants";
 
 export default React.createContext({
   theme: themes.light,
-  toggle: () => {}
+  setThemeContext: () => {}
 });

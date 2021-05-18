@@ -2,5 +2,14 @@
   "menu:users": "Users",
   "menu:create-user": "Create User",
   "menu:user-info": "User Info",
-  "menu:transactions": "Transactions"
+  "menu:transactions": "Transactions",
+  "table:show_of_row": "{range_one}-{range_two} of {total} rows",
+  "common:username": "Username",
+  "common:username:lowercase": "username",
+  "common:password": "Password",
+  "common:password:lowercase": "password",
+  "common:submit": "Submit",
+  "common:save": "Save",
+  "common:create": "Create",
+  "common:update": "Update"
 }

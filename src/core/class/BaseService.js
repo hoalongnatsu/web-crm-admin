@@ -1,5 +1,6 @@
 import { CURRENT_ENV } from "@Core/configs/env";
 import a from "axios";
+import authHelper from "@Helpers/auth";
 
 const axios = a.create({ baseURL: CURRENT_ENV.API_URL });
 
@@ -9,7 +10,7 @@ auth.interceptors.request.use(
     const token = localStorage.getItem("token");
 
     if (token) {
-      config.headers["token"] = `Bearer ${token}`;
+      config.headers["Authorization"] = token;
     }
 
     return config;
@@ -18,9 +19,19 @@ auth.interceptors.request.use(
     Promise.reject(error);
   }
 );
+auth.interceptors.response.use((config) => config, (error) => {
+  const { response } = error;
+
+  if (response && response.status === 401) {
+    authHelper.clearAuthInfo();
+    window.location.reload();
+  }
+
+  return error;
+})
 
 export default class BaseService {
-  init(prefix, useAuth) {
+  init(prefix, useAuth = true) {
     this.prefix = prefix;
     this.useAuth = useAuth;
     return this;
@@ -49,18 +60,18 @@ export default class BaseService {
   }
 
   get(url, params, useAuth, options, usePrefix = true) {
-    return this.callWithParams("get", url, params, options, useAuth, usePrefix = true)
+    return this.callWithParams("get", url, params, options, useAuth, usePrefix)
   }
 
   post(url, body, useAuth, options, usePrefix = true) {
-    return this.callWithBody("post", url, body, options, useAuth, usePrefix = true);
+    return this.callWithBody("post", url, body, options, useAuth, usePrefix);
   }
 
   put(url, body, useAuth, options, usePrefix = true) {
-    return this.callWithBody("put", url, body, options, useAuth, usePrefix = true);
+    return this.callWithBody("put", url, body, options, useAuth, usePrefix);
   }
 
   delete(url, params, useAuth, options, usePrefix = true) {
-    return this.callWithParams("delete", url, params, options, useAuth, usePrefix = true)
+    return this.callWithParams("delete", url, params, options, useAuth, usePrefix)
   }
 }

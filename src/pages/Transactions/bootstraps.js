@@ -21,7 +21,8 @@ const config = {
         to: "/transactions"
       },
     ]
-  }
+  },
+  requireAuthenticated: true
 }
 
 export default config;

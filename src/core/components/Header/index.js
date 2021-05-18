@@ -1,15 +1,19 @@
+import { Button, Menu } from "antd";
 import React, { useContext } from "react";
 
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import ResourceContext from "@Contexts/Resource";
 import ThemeContext from "@Contexts/Theme";
+import auth from "@Helpers/auth";
+import { clear_admin_info } from "@Store/actions/admin";
 import useTranslate from "@Core/hooks/useTranslate";
 
 const { SubMenu } = Menu;
 
-const Header = ({ menus = [] }) => {
+const Header = ({ menus = [], authenticated }) => {
   const t = useTranslate();
   const { theme } = useContext(ThemeContext);
+  const { setResourceContext } = useContext(ResourceContext);
 
   const renderMenu = (menu) => {
     return (
@@ -27,13 +31,21 @@ const Header = ({ menus = [] }) => {
     );
   };
 
-  return (
+  const onLogout = () => {
+    clear_admin_info();
+    auth.clearAuthInfo();
+    setResourceContext();
+  }
+
+  return authenticated ? (
     <header className={theme.name} style={{ background: theme.background }}>
       <div className="logo"></div>
       <Menu mode="horizontal" theme={theme.name}>{menus.map(renderMenu)}</Menu>
-      <div className="setting"></div>
+      <div className="setting">
+        <Button type="text" onClick={onLogout}>Logout</Button>
+      </div>
     </header>
-  );
+  ) : null;
 };
 
 export default Header;

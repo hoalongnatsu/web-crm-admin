@@ -2,10 +2,10 @@ import BaseService from '@Core/class/BaseService';
 
 class UserService extends BaseService {
 
-  getList = () => {
-    return this.get("/");
+  getList = (params) => {
+    return this.get("/", params);
   }
 
 }
 
-export default new UserService().init("/admin/api/users");
+export default new UserService().init("/authority/api/admin/users");
