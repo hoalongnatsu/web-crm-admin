@@ -67,6 +67,22 @@
     justify-content: center;
   }
 
+  .actions {
+    position: absolute;
+    z-index: 1000;
+    height: 37px;
+    background: var(--gray-primary);
+    width: calc(100% - 70px);
+    margin-left: 50px;
+    padding: 0 10px;
+
+    @include flex-center-vertical;
+
+    .text {
+      margin-right: 5px;
+    }
+  }
+
   .admim-table-disabled-row {
     color: rgba(#000000, .25);
 

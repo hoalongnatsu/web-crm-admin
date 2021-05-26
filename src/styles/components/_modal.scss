@@ -1,0 +1,34 @@
+.ant-modal {
+  .ant-modal-close-x {
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+  }
+
+  .ant-modal-header {
+    padding: 10px 15px;
+  }
+
+  .ant-modal-body {
+    .ant-input-number {
+      width: 100%;
+    }
+  }
+
+  &.modal-delete {
+    .ant-modal-close-icon {
+      svg {
+        fill: white;
+      }
+    }
+  
+    .ant-modal-header {
+      background: var(--danger-primary);
+  
+      .ant-modal-title {
+        color: white;
+      }
+    }
+  }
+}
+

@@ -4,6 +4,8 @@
   "menu:user-info": "User Info",
   "menu:transactions": "Transactions",
   "table:show_of_row": "{range_one}-{range_two} of {total} rows",
+  "table:action:selected_rows": "{number} row(s) are selected",
+  "table:modal:title:delete": "Delete {number} row(s)",
   "common:username": "Username",
   "common:username:lowercase": "username",
   "common:password": "Password",
@@ -11,5 +13,9 @@
   "common:submit": "Submit",
   "common:save": "Save",
   "common:create": "Create",
-  "common:update": "Update"
+  "common:update": "Update",
+  "common:delete": "Delete",
+  "common:delete:lowercase": "delete",
+  "button:ok": "OK",
+  "button:cancel": "Cancel"
 }
