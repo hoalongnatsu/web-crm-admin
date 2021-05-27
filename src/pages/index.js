@@ -1,7 +1,8 @@
 const pages = [
   "Authentication",
+  "Templates",
   "Transactions",
-  "Users"
+  "Users",
 ]
 
 export default pages;

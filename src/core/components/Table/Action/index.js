@@ -1,9 +1,16 @@
-import { Button, InputNumber, Modal } from "antd";
+import { Button, InputNumber, Modal, message } from "antd";
 import React, { useState } from "react";
 
 import { DeleteOutlined } from "@ant-design/icons";
 
-const Action = ({ t, selectedRowKeys, customActions, modeCustomActions }) => {
+const Action = ({
+  t,
+  selectedRowKeys,
+  customActions,
+  modeCustomActions,
+  deleteAction,
+  resetAfterDeleteSuccess
+}) => {
   /* State */
   const [visible, seVisible] = useState(false);
   const [confirmValue, seConfirmValue] = useState();
@@ -17,8 +24,20 @@ const Action = ({ t, selectedRowKeys, customActions, modeCustomActions }) => {
     seVisible(false);
   };
 
-  const onOk = () => {
+  const onOk = async () => {
     setConfirmLoading(true);
+
+    try {
+      await deleteAction(selectedRowKeys);
+
+      seVisible(false);
+      seConfirmValue();
+      setConfirmLoading(false);
+      resetAfterDeleteSuccess(selectedRowKeys);
+    } catch (error) {
+      setConfirmLoading(false);
+      message.error(t("table:modal:message:delete_error"));
+    }
   };
 
   const onChangeConfirmValue = (value) => {
@@ -35,7 +54,8 @@ const Action = ({ t, selectedRowKeys, customActions, modeCustomActions }) => {
       },
       ...customActions,
     ];
-    const actions = modeCustomActions === "merge" ? mergeActions : customActions;
+    const actions =
+      modeCustomActions === "merge" ? mergeActions : customActions;
 
     return actions.map(({ icon, action, text, danger }) => (
       <Button
@@ -72,6 +92,7 @@ const Action = ({ t, selectedRowKeys, customActions, modeCustomActions }) => {
           confirmLoading={confirmLoading}
           okButtonProps={{
             disabled: selectedRowKeys.length !== confirmValue,
+            loading: confirmLoading,
           }}
         >
           <InputNumber onChange={onChangeConfirmValue} value={confirmValue} />

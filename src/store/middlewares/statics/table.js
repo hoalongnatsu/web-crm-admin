@@ -5,7 +5,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import { get_action_table } from "@Store/reducers/pattern/table";
 
 function* get_indentity_table_data_worker(action) {
-  const { identity, api, method, pageIndex, pageSize, sorter } = action.payload;
+  const { identity, api, method, pageIndex, pageSize, sorter, whereAnd } = action.payload;
 
   yield put({
     type: get_action_table(
@@ -14,8 +14,10 @@ function* get_indentity_table_data_worker(action) {
     ),
   }); // trigger loading
 
+  const filters = { ...whereAnd };
+
   try {
-    const params = { pageIndex, pageSize, sorter };
+    const params = { pageIndex, pageSize, sorter, filters };
     const res = yield call(api[method], params);
 
     const payload = {

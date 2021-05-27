@@ -10,7 +10,6 @@
     
     .ant-table-column-sorters {
       padding: 0;
-
     }
   }
 
@@ -22,12 +21,9 @@
       height: 39px;
     }
   }
-}
 
-.page-breadcrumb {
   .ant-table-body,
   .ant-table-body-inner {
-    max-height: calc(100vh - 58px) !important;
 
     &::-webkit-scrollbar {
       width: 8px;
@@ -49,6 +45,13 @@
     @supports (scrollbar-width: thin) {
       scrollbar-width: thin;
     }
+  }
+}
+
+.page-breadcrumb {
+  .ant-table-body,
+  .ant-table-body-inner {
+    max-height: calc(100vh - 190px) !important;
   }
 }
 

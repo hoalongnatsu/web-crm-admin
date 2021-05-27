@@ -1,22 +1,23 @@
 import * as React from "react";
 
 export interface Props {
-  columns: Array<any>,
-  identity: string,
-  rowKeys: Array<string>;
-  rowKeysChange: (ids: Array<string>) => void;
+  columns: any[];
+  identity: string;
+  rowKeys: string[];
+  rowKeysChange: (ids: string[]) => void;
   modeRowKeys: "radio" | "checkbox";
   mappingRowKey: (record: any) => string | number;
   api: {
-    getList: () => Promise<{ list: Array<any>, totalRows: number, extendsData?: any }>, // method name in method.list
-    deleteByIds: () => Promise<{ deletedIds: Array<string> }> // // method name in method.delete
+    getList: () => Promise<{ list: Array<any>, totalRows: number, extendsData?: any }>; // method name of methodList
+    deleteByIds: (ids: string[]) => Promise<{ deletedIds: string[] }> // // method name of methodDelete
   };
-  method: string,
-  rowKey: string,
-  defaultPageSize: numer,
-  defaultSorter: string[],
-  showSelection: boolean,
-  afterDeleteSuccess: (deletedIds: Array<string>) => void;
+  methodList: string;
+  methodDelete: string;
+  rowKey: string;
+  defaultPageSize: numer;
+  defaultSorter: string[];
+  showSelection: boolean;
+  afterDeleteSuccess: (deletedIds: string[]) => void;
   scroll: {
     x: number;
     y: numbe;
@@ -25,12 +26,12 @@ export interface Props {
 }
 
 export interface State {
-  selectedRowKeys: Array<string>;
+  selectedRowKeys: string[];
 }
 
 export default class CommonTable extends React.Component<Props, State> {
   static defaultProps: {
-    columns: Array<any>,
+    columns: Array<any>;
   };
 
   state: {

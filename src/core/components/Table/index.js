@@ -16,9 +16,18 @@ const RootTable = ({
   showSelection,
   selectedRowKeys,
   onSelectRowKeys,
-  onSelectAllRowKeys
+  onSelectAllRowKeys,
+  scroll
 }) => {
 
+  // Scroll
+  const tableScroll = {
+    y: `calc(100vh - (170px))`,
+    ...scroll,
+    scrollToFirstRowOnChange: false
+  };
+
+  // Pagination
   const rowSelection = {
     fixed: true,
     selectedRowKeys,
@@ -36,6 +45,7 @@ const RootTable = ({
       pagination={pagination}
       onChange={onChangeTable}
       rowSelection={showSelection ? rowSelection : null}
+      scroll={tableScroll}
     />
   )
 }
@@ -46,11 +56,16 @@ const CommonTable = ({
   columns,
   identity,
   api,
-  method,
+  methodList,
+  methodDelete,
   rowKey,
   defaultPageSize,
   defaultSorter,
-  showSelection
+  defaultWhereAnd,
+  showSelection,
+  afterDeleteSuccess,
+  scroll,
+  scrollToFirstRowOnChange
 }) => {
   const t = useTranslate();
 
@@ -61,33 +76,45 @@ const CommonTable = ({
   const loading = useSelector(
     loading_by_action(`${identity}_GET_IDENTITY_TABLE_DATA_SOURCE`)
   );
-  const { dataSource, pagination } = useSelector((state) => state[identity]);
+  const { dataSource, pagination, filters } = useSelector((state) => state[identity]);
 
   /* State */
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const get_data = useCallback(
-    (pageIndex, pageSize, sorter) => {
+    (pageIndex, pageSize, sorter, whereAnd) => {
       dispatch(
         get_identity_table_data_source(
           identity,
           api,
-          method,
+          methodList,
           pageIndex,
           pageSize,
-          sorter
+          sorter,
+          whereAnd,
+          filters,
         )
       );
     },
-    [dispatch, identity, api, method]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, identity, api, methodList, JSON.stringify(filters)]
   );
 
   useEffect(() => {
     const current = 1,
       pageSize = defaultPageSize;
 
-    get_data(current, pageSize, defaultSorter);
-  }, [get_data, defaultPageSize, defaultSorter]);
+    get_data(current, pageSize, defaultSorter, defaultWhereAnd);
+  }, [get_data, defaultPageSize, defaultSorter, defaultWhereAnd]);
+
+  // Trigger scroll to top when change pagination, filters, sorter
+  useEffect(() => {
+    const table = document.querySelector(".ant-table-body");
+    if (scrollToFirstRowOnChange && !loading && table && table.scrollTop !== 0) {
+      table.scrollTop = 0;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(pagination), JSON.stringify(filters), defaultSorter])
 
   pagination.position = ["bottomCenter"];
   pagination.showTotal = (total, range) =>
@@ -106,8 +133,8 @@ const CommonTable = ({
       sorter = [nextSorter.columnKey, nextSorter.order === "ascend" ? "ASC" : "DESC"]
     }
 
-    get_data(current, pageSize, sorter);
-  }, [get_data, defaultSorter])
+    get_data(current, pageSize, sorter, defaultWhereAnd);
+  }, [get_data, defaultSorter, defaultWhereAnd])
 
   const onSelectRowKeys = (record, selected) => {
     if (selected) {
@@ -130,6 +157,15 @@ const CommonTable = ({
     setSelectedRowKeys([]);
   }
 
+  const resetAfterDeleteSuccess = (ids) => {
+    if (afterDeleteSuccess) {
+      afterDeleteSuccess(ids);
+    }
+
+    setSelectedRowKeys([]);
+    get_data(1, defaultPageSize, defaultSorter, defaultWhereAnd);
+  }
+
   return (
     <div className="admin-table">
       <Spin
@@ -140,12 +176,15 @@ const CommonTable = ({
       <Action
         t={t}
         selectedRowKeys={selectedRowKeys}
+        deleteAction={api[methodDelete]}
+        resetAfterDeleteSuccess={resetAfterDeleteSuccess}
       />
       <RootTableMemo
         loading={loading}
         rowKey={rowKey}
         columns={columns}
         dataSource={dataSource}
+        scroll={scroll}
         // Pagination
         pagination={pagination}
         onChangeTable={onChangeTable}
@@ -160,11 +199,14 @@ const CommonTable = ({
 };
 
 CommonTable.defaultProps = {
-  method: "getList",
+  methodList: "getList",
+  methodDelete: "deleteByIds",
   rowKey: "id",
   defaultPageSize: 50,
   defaultSorter: ["created_at", "DESC"],
-  showSelection: true
+  showSelection: true,
+  scroll: {},
+  scrollToFirstRowOnChange: true
 }
 
 export default React.memo(CommonTable);

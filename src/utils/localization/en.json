@@ -3,9 +3,12 @@
   "menu:create-user": "Create User",
   "menu:user-info": "User Info",
   "menu:transactions": "Transactions",
+  "menu:templates": "Templates",
+  "menu:templates-product-detail": "Product Detail",
   "table:show_of_row": "{range_one}-{range_two} of {total} rows",
   "table:action:selected_rows": "{number} row(s) are selected",
   "table:modal:title:delete": "Delete {number} row(s)",
+  "table:modal:message:delete_error": "Something went wrong! Can't delete row(s)",
   "common:username": "Username",
   "common:username:lowercase": "username",
   "common:password": "Password",
@@ -16,6 +19,8 @@
   "common:update": "Update",
   "common:delete": "Delete",
   "common:delete:lowercase": "delete",
+  "common:message:success": "success message",
+  "common:message:error": "error message",
   "button:ok": "OK",
   "button:cancel": "Cancel"
 }

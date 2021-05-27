@@ -71,6 +71,10 @@ export default class BaseService {
     return this.callWithBody("put", url, body, options, useAuth, usePrefix);
   }
 
+  patch(url, body, useAuth, options, usePrefix = true) {
+    return this.callWithBody("patch", url, body, options, useAuth, usePrefix);
+  }
+
   delete(url, params, useAuth, options, usePrefix = true) {
     return this.callWithParams("delete", url, params, options, useAuth, usePrefix)
   }

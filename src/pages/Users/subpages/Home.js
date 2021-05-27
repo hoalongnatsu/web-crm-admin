@@ -8,20 +8,27 @@ const columns = [
     title: "Username",
     dataIndex: "username",
     key: "username",
-    sorter: true
+    sorter: true,
   },
   {
     title: "Email",
     dataIndex: "email",
     key: "email",
-    sorter: true
+    sorter: true,
   },
 ];
+const defaultWhereAnd = { blocked: { $eq: false } };
 
 const Users = () => {
-  
-
-  return <Table columns={columns} api={userApi} identity={identity} />;
+  return (
+    <Table
+      columns={columns}
+      api={userApi}
+      identity={identity}
+      methodDelete="blockUsers"
+      defaultWhereAnd={defaultWhereAnd}
+    />
+  );
 };
 
 export default Users;
